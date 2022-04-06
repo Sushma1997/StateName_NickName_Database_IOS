@@ -52,7 +52,7 @@ class ViewController: UIViewController , UITableViewDataSource {
                         
                         self.fetchState.append(States(statename : statename, nickname : nickname))
                     }
-                    print(self.fetchState)
+                    self.StateTableView.reloadData()
                 }
                 catch{
                     print("Error2")
