@@ -2,11 +2,14 @@ import UIKit
 
 class ViewController: UIViewController , UITableViewDataSource {
     
+    @IBOutlet var Spinner: UIActivityIndicatorView!
     var fetchState = [States]()
     @IBOutlet var StateTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Spinner.startAnimating()
         StateTableView.dataSource = self
         parseData()
     }
