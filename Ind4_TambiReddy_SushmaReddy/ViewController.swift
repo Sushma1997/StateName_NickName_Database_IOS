@@ -2,7 +2,6 @@ import UIKit
 
 class ViewController: UIViewController , UITableViewDataSource {
     
-    @IBOutlet var Spinner: UIActivityIndicatorView!
     var fetchState = [States]()
     @IBOutlet var StateTableView: UITableView!
     
@@ -30,7 +29,6 @@ class ViewController: UIViewController , UITableViewDataSource {
             myActivityIndicator.isHidden = true
         }
         
-       // Spinner.startAnimating()
         StateTableView.dataSource = self
         parseData()
     }
