@@ -1,12 +1,31 @@
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController , UITableViewDataSource {
     
     var fetchState = [States]()
-
+    @IBOutlet var StateTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        StateTableView.dataSource = self
         parseData()
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return fetchState.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = StateTableView.dequeueReusableCell(withIdentifier: "cell")
+        
+        cell?.textLabel?.text = fetchState[indexPath.row].statename
+        cell?.detailTextLabel?.text = fetchState[indexPath.row].nickname
+        
+        return cell!
     }
     
     func parseData() {
