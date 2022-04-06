@@ -9,9 +9,34 @@ class ViewController: UIViewController , UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Spinner.startAnimating()
+        let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
+        
+        myActivityIndicator.center = view.center
+        
+        myActivityIndicator.hidesWhenStopped = false
+              
+              myActivityIndicator.startAnimating()
+              
+              
+              view.addSubview(myActivityIndicator)
+        let elapsed = Double().self
+        
+        var delay = 0.0
+        if elapsed < 2.0 {
+          delay = 2.0 - elapsed
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+          myActivityIndicator.stopAnimating()
+            myActivityIndicator.isHidden = true
+        }
+        
+       // Spinner.startAnimating()
         StateTableView.dataSource = self
         parseData()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
     override var prefersStatusBarHidden: Bool {
