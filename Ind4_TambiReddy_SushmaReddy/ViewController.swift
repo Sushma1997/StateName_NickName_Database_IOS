@@ -1,5 +1,6 @@
 import UIKit
 
+//adding UITableViewDataSource to display the table view in its format
 class ViewController: UIViewController , UITableViewDataSource {
     
     var fetchState = [States]()
@@ -8,16 +9,20 @@ class ViewController: UIViewController , UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //creating a spinner
         let myActivityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
         
+        //spinner location in the center of the screen
         myActivityIndicator.center = view.center
         
         myActivityIndicator.hidesWhenStopped = false
+        // start the spinner
+        myActivityIndicator.startAnimating()
               
-              myActivityIndicator.startAnimating()
-              
-              
-              view.addSubview(myActivityIndicator)
+        // adding subview for the spinner so that table view is loaded after that on the same screen
+        view.addSubview(myActivityIndicator)
+        
+        //adding timer to the spinner
         let elapsed = Double().self
         
         var delay = 0.0
@@ -25,11 +30,13 @@ class ViewController: UIViewController , UITableViewDataSource {
           delay = 2.0 - elapsed
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            //stop the spinner
           myActivityIndicator.stopAnimating()
             myActivityIndicator.isHidden = true
         }
         
         StateTableView.dataSource = self
+        //calling parseData function
         parseData()
     }
     
@@ -41,10 +48,12 @@ class ViewController: UIViewController , UITableViewDataSource {
         return true
     }
     
+    //to retuen the table row count
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchState.count
     }
     
+    //returning the cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = StateTableView.dequeueReusableCell(withIdentifier: "cell")
         
@@ -54,9 +63,12 @@ class ViewController: UIViewController , UITableViewDataSource {
         return cell!
     }
     
+    //function to read data from the database
     func parseData() {
         
         fetchState = []
+        
+        //url of the php file
         let url = "https://cs.okstate.edu/~stambir/states.php"
         var request = URLRequest(url: URL(string:url)!)
         request.httpMethod = "GET"
@@ -69,6 +81,7 @@ class ViewController: UIViewController , UITableViewDataSource {
             }
             else {
                 do {
+                    //pulling the data of our desired format
                     let fetchData = try JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as! NSArray
                     for eachFetchState in fetchData {
                         
@@ -90,6 +103,7 @@ class ViewController: UIViewController , UITableViewDataSource {
 
 }
 
+//class for the table columns
 class States {
     var statename : String
     var nickname : String
